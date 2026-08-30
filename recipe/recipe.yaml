@@ -1,6 +1,6 @@
 context:
   name: agentfem
-  version: "0.2.5"
+  version: "0.3.0"
   python_min: "3.11"
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: 15e38851a501e6fcf8e365a601c801699b7b4c306c9bdcbce8ecfc841c6a5f1c
+  sha256: de7a2b1b02ceca7bb78e465f03dc536e6748fb915fe998066fd84d7547213492
 
 build:
   number: 0
