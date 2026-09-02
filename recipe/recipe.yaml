@@ -12,7 +12,7 @@ source:
   sha256: 705dc3016b37dbf539e8b645b09e5c71ad6f64c913b59e2a0300088f30f70138
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   python:
@@ -27,7 +27,7 @@ requirements:
     - wheel
   run:
     - python >=${{ python_min }}
-    - fenics-dolfinx
+    - fenics-dolfinx >=0.11,<0.12.0a0
     - fenics-ufl
     - h5py
     - mpi4py
@@ -48,6 +48,7 @@ tests:
         - "*"
   - script:
       - python -c "import agentfem; assert agentfem.__version__ == '${{ version }}'"
+      - python -c "import dolfinx; assert dolfinx.__version__.startswith('0.11.')"
       - agentfem doctor --json
     requirements:
       run:
