@@ -1,6 +1,6 @@
 context:
   name: agentfem
-  version: "0.4.4"
+  version: "0.5.0"
   python_min: "3.11"
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: ef55f097e7dc411ff7c39dc771d9f929496d0b14a00a8e3d080202374d6e36a9
+  sha256: 2797b5a8964eede28f9fbb99bd076d676852dabba5f84b24cf139a9bfc4d3cbb
 
 build:
   number: 0
@@ -20,7 +20,8 @@ build:
   script: AGENTFEM_BUILD_NATIVE=0 ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   python:
     entry_points:
-      - agentfem = agentfem.cli:main
+      - agentfem = agentfem._cli_entry:main
+      - agentfem-view = agentfem.viewer:main
 
 requirements:
   host:
@@ -33,10 +34,13 @@ requirements:
     - fenics-dolfinx >=0.11,<0.12.0a0
     - fenics-ufl
     - h5py
+    - matplotlib-base
     - mpi4py
     - numpy
     - packaging >=23
     - petsc4py
+    - python-gmsh >=4.11
+    - scipy >=1.11
 
 tests:
   - python:
@@ -46,6 +50,9 @@ tests:
         - agentfem.materials
         - agentfem.mesh
         - agentfem.operators
+        - gmsh
+        - matplotlib
+        - scipy
       pip_check: true
       python_version:
         - ${{ python_min }}.*
@@ -53,6 +60,8 @@ tests:
   - script:
       - python -c "import agentfem; assert agentfem.__version__ == '${{ version }}'"
       - python -c "import dolfinx; assert dolfinx.__version__.startswith('0.11.')"
+      - agentfem --help
+      - agentfem-view --help
       - agentfem doctor --json
     requirements:
       run:
